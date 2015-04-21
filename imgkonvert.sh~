@@ -15,7 +15,7 @@ do
 	echo "IMG file: $imgfile"
 	lengthname=${#imgfile}
 	namefile=${imgfile:0:$lengthname-4}
-	convert "$1/$imgfile" -resize 200x200 "$namefile.jpg"	
+	convert $1/$imgfile -resize 200x200 $namefile.jpg	
 	#mogrify -resize 200x200 *.png
 	#mogrify -format png *.jpg
 	
