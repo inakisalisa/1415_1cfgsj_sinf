@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Test
 # Script to convert all mage files from a directory (parameter) into png format file
 # it also reduces size
 #First change
