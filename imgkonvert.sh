@@ -53,6 +53,17 @@ then
 	exit 1
 fi
 
+# Easter Egg
+
+if [ $1 = "tongue-twister" ] && [ $2 = "easter" ] && [ $3 = "egg" ]
+then
+	echo "You have found an Easter Egg:"
+	echo "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+	echo "A woodchuck would chuck as much wood as a woodchuck could chuck if a"
+	echo "woodchuck could chuck wood."
+	exit 0
+fi
+
 # Main code
 
 ls -1 $1*.jpg > imagefiles
