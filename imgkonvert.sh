@@ -63,17 +63,68 @@ then
 	echo "woodchuck could chuck wood."
 	exit 0
 fi
-
 # Main code
 
-ls -1 $1*.jpg > imagefiles
-
-while read imgfile 
-do
+case $2 in 
+	 1 ) 
+	ls -1 $1/*.* > imagefiles
+	cat imagefiles
+	while read imgfile 
+	do
+	echo "IMG file: $imgfile"
 	lengthname=${#imgfile}
-	namefile=${imgfile;0;$lengthname-4}
-	convert $imgfile -resize 200x200 $namefile.png	
+	namefile=${imgfile:0:$lengthname-4}
+	convert  "$namefile.$3"	
+	#mogrify -resize 200x200 *.png
+	#mogrify -format png *.jpg
+	
+	done < imagefiles
+	rm imagefiles
+	exit 0
+	;;
+	2 )
 
-done < imagefiles
-rm imagefiles
-exit 0
+		pattern= '^[[:digit:]]+%$'	
+		if [[ pattern =~ $3 ]]
+		then 
+			ls -1 $1/*.* > imagefiles
+			cat imagefiles
+			while read imgfile 
+			do
+				convert -resize $2x$2 $1/$imagefiles "$1/t_$imagefiles"
+				echo "IMG file: $imgfile"
+			done < imagefiles
+			rm imagefiles
+			exit 0
+		else ls -1 $1 > imagefiles
+			cat imagefiles
+			while read imgfile 
+			do
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:0:$lengthname-4}
+				if ! test -d $1/Converted 
+				then 
+					mkdir "$1/Converted"
+				fi
+				convert "$1/$imgfile" -resize $3x$3 "$1/Converted/$namefile.jpg"	
+			done < imagefiles
+			rm imagefiles
+			exit 0
+		fi
+	;;
+	3 ) ls -1 $1 > imagefiles
+	cat imagefiles
+	while read imgfile 
+	do
+	echo "IMG file: $imgfile"
+	lengthname=${#imgfile}
+	namefile=${imgfile:$lengthname-3:3}
+	convert "$1/$imgfile" "$3.$namefile"	
+	#mogrify -resize 200x200 *.png
+	#mogrify -format png *.jpg
+	done < imagefiles
+	rm imagefiles
+	exit 0
+	;;
+esac
