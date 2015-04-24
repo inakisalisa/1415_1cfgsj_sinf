@@ -155,16 +155,17 @@ case $2 in
 			exit 0
 		fi
 	;;
-	3 ) ls -1 $1 > imagefiles
-	cat imagefiles
-	while read imgfile 
-	do
-	echo "IMG file: $imgfile"
-	lengthname=${#imgfile}
-	namefile=${imgfile:$lengthname-3:3}
-	convert "$1/$imgfile" "$3.$namefile"
-	done < imagefiles
-	rm imagefiles
-	exit 0
+	3 )
+		ls -1 $1 > imagefiles
+		cat imagefiles
+		while read imgfile 
+		do
+			echo "IMG file: $imgfile"
+			lengthname=${#imgfile}
+			namefile=${imgfile:$lengthname-3:3}
+			convert "$1/$imgfile" "$3.$namefile"
+		done < imagefiles
+		rm imagefiles
+		exit 0
 	;;
 esac
