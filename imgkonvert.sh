@@ -52,7 +52,7 @@ then
 	echo "Use imgkonvert -h for help"
 	exit 1
 fi
-if ! test -d $1/Converted 
+if ! test -d $1 
 then
 	echo "The directory doesn't exist"
 fi
