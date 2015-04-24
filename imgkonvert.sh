@@ -70,6 +70,15 @@ then
 		echo "Use imgkonvert -h for help"
 	fi
 fi
+if [ $2 = 2 ]
+then
+	pattern = '^[[:digit:]]+%?$'
+	if [ $3 != $pattern ]
+	then
+		echo "Wrong parameter"
+		echo "Use imgkonvert -h for help"
+	fi
+fi
 
 # Easter Egg
 
@@ -110,8 +119,8 @@ case $2 in
 	;;
 	2 )
 
-		pattern= '^[[:digit:]]+%$'	
-		if [[ pattern =~ $3 ]]
+		pattern = '^[[:digit:]]+%$'	
+		if [[ $pattern =~ $3 ]]
 		then 
 			ls -1 $1/*.* > imagefiles
 			cat imagefiles
