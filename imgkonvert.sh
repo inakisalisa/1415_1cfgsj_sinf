@@ -61,6 +61,7 @@ if [ $2 != 1 ] && [ $2 != 2 ] && [ $2 != 3 ]
 then
 	echo "Wrong option"
 	echo "Use imgkonvert -h for help"
+	exit 1
 fi
 if [ $2 = 1 ]
 then
@@ -68,6 +69,7 @@ then
 	then
 		echo "Wrong format"
 		echo "Use imgkonvert -h for help"
+		exit 1
 	fi
 fi
 if [ $2 = 2 ]
@@ -77,6 +79,7 @@ then
 	then
 		echo "Wrong parameter"
 		echo "Use imgkonvert -h for help"
+		exit 1
 	fi
 fi
 
@@ -103,14 +106,11 @@ case $2 in
 		fi
 		while read imgfile 
 		do
-			echo $imgfile
-			echo "IMG file: $imgfile"
 			if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
 			then
-				echo "--------------It enter here----------------"
+				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
-				echo "$1/$imgfile $1/Converted/$namefile.$3"
 				convert $1/$imgfile $1/Converted/$namefile.$3
 			fi
 		done < imagefiles
