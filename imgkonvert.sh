@@ -74,8 +74,8 @@ then
 fi
 if [ $2 = 2 ]
 then
-	pattern = '^[[:digit:]]+%?$'
-	if [ $3 != $pattern ]
+	pattern='^[[:digit:]]+%?$'
+	if [[ ! $3 =~ $pattern ]]
 	then
 		echo "Wrong parameter"
 		echo "Use imgkonvert -h for help"
@@ -118,8 +118,7 @@ case $2 in
 		exit 0
 	;;
 	2 )
-
-		pattern = '^[[:digit:]]+%$'	
+		pattern='^[[:digit:]]+%$'	
 		if [[ $pattern =~ $3 ]]
 		then 
 			ls -1 $1/*.* > imagefiles
