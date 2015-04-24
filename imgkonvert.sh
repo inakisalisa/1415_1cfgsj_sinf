@@ -82,11 +82,9 @@ case $2 in
 			then
 				echo "--------------It enter here----------------"
 				lengthname=${#imgfile}
-				echo "asdfghjkl1"
 				namefile=${imgfile:0:$lengthname-4}
-				echo "asdfghjkl2 $1/$imgfile $1/Converted/$namefile.$3"
+				echo "$1/$imgfile $1/Converted/$namefile.$3"
 				convert $1/$imgfile $1/Converted/$namefile.$3
-				echo "asdfghjkl3"
 			fi
 		done < imagefiles
 		rm imagefiles
@@ -110,6 +108,8 @@ case $2 in
 			cat imagefiles
 			while read imgfile 
 			do
+				if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+				then
 				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
@@ -117,7 +117,8 @@ case $2 in
 				then 
 					mkdir "$1/Converted"
 				fi
-				convert "$1/$imgfile" -resize $3x$3 "$1/Converted/$namefile.jpg"	
+				convert "$1/$imgfile" -resize $3x$3 "$1/Converted/$namefile.jpg"
+				fi
 			done < imagefiles
 			rm imagefiles
 			exit 0
