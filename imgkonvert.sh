@@ -135,9 +135,7 @@ case $2 in
 	echo "IMG file: $imgfile"
 	lengthname=${#imgfile}
 	namefile=${imgfile:$lengthname-3:3}
-	convert "$1/$imgfile" "$3.$namefile"	
-	#mogrify -resize 200x200 *.png
-	#mogrify -format png *.jpg
+	convert "$1/$imgfile" "$3.$namefile"
 	done < imagefiles
 	rm imagefiles
 	exit 0
