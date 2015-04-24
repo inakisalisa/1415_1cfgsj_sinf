@@ -65,7 +65,7 @@ then
 fi
 if [ $2 = 1 ]
 then
-	if [ $3 != png ] || [ $3 != *.jpg ] || [ $3 != *.raw ]
+	if [ $3 != 'png' ] && [ $3 != 'jpg' ] && [ $3 != 'raw' ]
 	then
 		echo "Wrong format"
 		echo "Use imgkonvert -h for help"
