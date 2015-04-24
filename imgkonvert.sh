@@ -121,12 +121,19 @@ case $2 in
 		pattern='^[[:digit:]]+%$'	
 		if [[ $pattern =~ $3 ]]
 		then 
-			ls -1 $1/*.* > imagefiles
+			ls -1 $1 > imagefiles
 			cat imagefiles
 			while read imgfile 
 			do
-				convert -resize $2x$2 $1/$imagefiles "$1/t_$imagefiles"
-				echo "IMG file: $imgfile"
+				if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+				then
+					echo "IMG file: $imgfile"
+					if ! test -d $1/Converted 
+					then 
+						mkdir "$1/Converted"
+					fi
+					convert "$1/$imgfile" -resize $3 "$1/Converted/$imgfile"
+				fi			
 			done < imagefiles
 			rm imagefiles
 			exit 0
@@ -136,14 +143,12 @@ case $2 in
 			do
 				if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
 				then
-				echo "IMG file: $imgfile"
-				lengthname=${#imgfile}
-				namefile=${imgfile:0:$lengthname-4}
-				if ! test -d $1/Converted 
-				then 
-					mkdir "$1/Converted"
-				fi
-				convert "$1/$imgfile" -resize $3x$3 "$1/Converted/$namefile.jpg"
+					echo "IMG file: $imgfile"
+					if ! test -d $1/Converted 
+					then 
+						mkdir "$1/Converted"
+					fi
+					convert "$1/$imgfile" -resize $3x$3 "$1/Converted/$imgfile"
 				fi
 			done < imagefiles
 			rm imagefiles
