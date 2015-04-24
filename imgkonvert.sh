@@ -66,21 +66,31 @@ fi
 # Main code
 
 case $2 in 
-	 1 ) 
-	ls -1 $1/*.* > imagefiles
-	cat imagefiles
-	while read imgfile 
-	do
-	echo "IMG file: $imgfile"
-	lengthname=${#imgfile}
-	namefile=${imgfile:0:$lengthname-4}
-	convert  "$namefile.$3"	
-	#mogrify -resize 200x200 *.png
-	#mogrify -format png *.jpg
-	
-	done < imagefiles
-	rm imagefiles
-	exit 0
+	1 ) 
+		ls -1 $1 > imagefiles
+		cat imagefiles
+		if ! test -d $1/Converted 
+		then 
+			mkdir "$1/Converted"
+			echo "$1/Converted created"
+		fi
+		while read imgfile 
+		do
+			echo $imgfile
+			echo "IMG file: $imgfile"
+			if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+			then
+				echo "--------------It enter here----------------"
+				lengthname=${#imgfile}
+				echo "asdfghjkl1"
+				namefile=${imgfile:0:$lengthname-4}
+				echo "asdfghjkl2 $1/$imgfile $1/Converted/$namefile.$3"
+				convert $1/$imgfile $1/Converted/$namefile.$3
+				echo "asdfghjkl3"
+			fi
+		done < imagefiles
+		rm imagefiles
+		exit 0
 	;;
 	2 )
 
