@@ -55,6 +55,20 @@ fi
 if ! test -d $1 
 then
 	echo "The directory doesn't exist"
+	echo "Use imgkonvert -h for help"
+fi
+if [ $2 != 1 ] && [ $2 != 2 ] && [ $2 != 3 ]
+then
+	echo "Wrong option"
+	echo "Use imgkonvert -h for help"
+fi
+if [ $2 = 1 ]
+then
+	if [ $3 != png ] || [ $3 != *.jpg ] || [ $3 != *.raw ]
+	then
+		echo "Wrong format"
+		echo "Use imgkonvert -h for help"
+	fi
 fi
 
 # Easter Egg
