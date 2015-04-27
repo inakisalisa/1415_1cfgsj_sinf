@@ -4,6 +4,14 @@
 # it also reduces size
 #First change
 # Sanity checks ?
+
+if [ $# = 0 ]
+then
+	echo "Wrong parameters"
+	echo "Usage: imgkonvert.sh directory action parameter"
+	echo "Use imgkonvert -h for help"
+	exit 1
+fi
 if [ $1 = "-h" ]
 then
 	echo ""
@@ -56,6 +64,7 @@ if ! test -d $1
 then
 	echo "The directory doesn't exist"
 	echo "Use imgkonvert -h for help"
+	exit 1
 fi
 if [ $2 != 1 ] && [ $2 != 2 ] && [ $2 != 3 ]
 then
@@ -106,12 +115,26 @@ case $2 in
 		fi
 		while read imgfile 
 		do
-			if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+			if [ $imgfile = "*.png" ]
 			then
 				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
-				convert $1/$imgfile $1/Converted/$namefile.$3
+				convert $1/$imgfile $1/Converted/$namefile.png
+			fi
+			if [ $imgfile = "*.jpg" ]
+			then
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:0:$lengthname-4}
+				convert $1/$imgfile $1/Converted/$namefile.jpg
+			fi
+			if [ $imgfile = "*.raw" ]
+			then
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:0:$lengthname-4}
+				convert $1/$imgfile $1/Converted/$namefile.raw
 			fi
 		done < imagefiles
 		rm imagefiles
@@ -125,7 +148,25 @@ case $2 in
 			cat imagefiles
 			while read imgfile 
 			do
-				if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+				if [ $imgfile = "*.png" ]
+				then
+					echo "IMG file: $imgfile"
+					if ! test -d $1/Converted 
+					then 
+						mkdir "$1/Converted"
+					fi
+					convert "$1/$imgfile" -resize $3 "$1/Converted/$imgfile"
+				fi
+				if [ $imgfile = "*.jpg" ]
+				then
+					echo "IMG file: $imgfile"
+					if ! test -d $1/Converted 
+					then 
+						mkdir "$1/Converted"
+					fi
+					convert "$1/$imgfile" -resize $3 "$1/Converted/$imgfile"
+				fi
+				if [ $imgfile = "*.raw" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
@@ -141,7 +182,7 @@ case $2 in
 			cat imagefiles
 			while read imgfile 
 			do
-				if [ $imgfile = *.png ] || [ $imgfile = *.jpg ] || [ $imgfile = *.raw ]
+				if [ $imgfile = "*.png" ] || [ $imgfile = "*.jpg" ] || [ $imgfile = "*.raw" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
