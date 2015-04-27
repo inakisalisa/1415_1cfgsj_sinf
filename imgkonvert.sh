@@ -115,26 +115,27 @@ case $2 in
 		fi
 		while read imgfile 
 		do
-			if [ $imgfile = "*.png" ]
+			endfile=${imgfile:$lengthname-3:3}
+			if [ $endfile = "png" ]
 			then
 				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
-				convert $1/$imgfile $1/Converted/$namefile.png
+				convert "$1/$imgfile" "$1/Converted/$namefile.$3"
 			fi
-			if [ $imgfile = "*.jpg" ]
+			if [ $endfile = "jpg" ]
 			then
 				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
-				convert $1/$imgfile $1/Converted/$namefile.jpg
+				convert "$1/$imgfile" "$1/Converted/$namefile.$3"
 			fi
-			if [ $imgfile = "*.raw" ]
+			if [ $endfile = "raw" ]
 			then
 				echo "IMG file: $imgfile"
 				lengthname=${#imgfile}
 				namefile=${imgfile:0:$lengthname-4}
-				convert $1/$imgfile $1/Converted/$namefile.raw
+				convert "$1/$imgfile" "$1/Converted/$namefile.$3"
 			fi
 		done < imagefiles
 		rm imagefiles
@@ -148,7 +149,8 @@ case $2 in
 			cat imagefiles
 			while read imgfile 
 			do
-				if [ $imgfile = "*.png" ]
+				endfile=${imgfile:$lengthname-3:3}
+				if [ $endfile = "png" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
@@ -157,7 +159,7 @@ case $2 in
 					fi
 					convert "$1/$imgfile" -resize $3 "$1/Converted/$imgfile"
 				fi
-				if [ $imgfile = "*.jpg" ]
+				if [ $endfile = "jpg" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
@@ -166,7 +168,7 @@ case $2 in
 					fi
 					convert "$1/$imgfile" -resize $3 "$1/Converted/$imgfile"
 				fi
-				if [ $imgfile = "*.raw" ]
+				if [ $endfile = "raw" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
@@ -182,7 +184,8 @@ case $2 in
 			cat imagefiles
 			while read imgfile 
 			do
-				if [ $imgfile = "*.png" ] || [ $imgfile = "*.jpg" ] || [ $imgfile = "*.raw" ]
+				endfile=${imgfile:$lengthname-3:3}
+				if [ $endfile = "png" ] || [ $endfile = "jpg" ] || [ $endfile = "raw" ]
 				then
 					echo "IMG file: $imgfile"
 					if ! test -d $1/Converted 
@@ -199,12 +202,34 @@ case $2 in
 	3 )
 		ls -1 $1 > imagefiles
 		cat imagefiles
-		while read imgfile 
+		if ! test -d $1/Converted 
+		then 
+			mkdir "$1/Converted"
+		fi
+		while read imgfile
 		do
-			echo "IMG file: $imgfile"
-			lengthname=${#imgfile}
-			namefile=${imgfile:$lengthname-3:3}
-			convert "$1/$imgfile" "$3.$namefile"
+			endfile=${imgfile:$lengthname-3:3}
+			if [ $endfile = "png" ]
+			then
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:$lengthname-3:3}
+				convert "$1/$imgfile" "$1/Converted/$3.png"
+			fi
+			if [ $endfile = "jpg" ]
+			then
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:$lengthname-3:3}
+				convert "$1/$imgfile" "$1/Converted/$3.jpg"
+			fi
+			if [ $endfile = "raw" ]
+			then
+				echo "IMG file: $imgfile"
+				lengthname=${#imgfile}
+				namefile=${imgfile:$lengthname-3:3}
+				convert "$1/$imgfile" "$1/Converted/$3.raw"
+			fi
 		done < imagefiles
 		rm imagefiles
 		exit 0
